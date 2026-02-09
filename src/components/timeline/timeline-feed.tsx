@@ -52,9 +52,12 @@ export function TimelineFeed() {
         setIsModalOpen(true);
     };
 
-    // Handle log submission (mock for now, will connect to AI in Phase 3)
-    const handleLogSubmit = async (input: LogInput) => {
-        // Create new log with mock refined content
+    // Handle log submission with AI results
+    const handleLogSubmit = async (
+        input: LogInput,
+        aiResult: { refinedContent: string; interpretation: string } | null
+    ) => {
+        // Create new log with AI-transformed content
         const newLog: Log = {
             id: `l${Date.now()}`,
             user_id: "u1",
@@ -62,8 +65,8 @@ export function TimelineFeed() {
             date: input.date,
             block_id: input.block_id,
             raw_content: input.raw_content,
-            refined_content: input.raw_content, // Will be AI-transformed in Phase 3
-            interpretation: null,
+            refined_content: aiResult?.refinedContent || input.raw_content,
+            interpretation: aiResult?.interpretation || null,
             student_ids: input.student_ids,
             domain_tags: input.domain_tags,
             weather: weather,
